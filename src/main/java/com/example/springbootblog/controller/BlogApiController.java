@@ -2,13 +2,12 @@ package com.example.springbootblog.controller;
 
 import com.example.springbootblog.domain.Article;
 import com.example.springbootblog.dto.AddArticleRequest;
+import com.example.springbootblog.dto.UpdateArticleRequest;
 import com.example.springbootblog.service.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,5 +21,13 @@ public class BlogApiController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
+    }
+
+    @PutMapping("/api/articles/{id}")
+    public ResponseEntity<Article> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleRequest request){
+        Article updatedArticle = blogService.update(id, request);
+
+        return ResponseEntity.ok()
+                .body(updatedArticle);
     }
 }
